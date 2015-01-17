@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
+using System.Security;
 
 namespace Scale.AppSecrets.Tests
 {
@@ -11,8 +12,18 @@ namespace Scale.AppSecrets.Tests
         [TestCategory("Integration")]
         public async Task GetSecret_KeyName_DoesNotThrow()
         {
-            var secretValue = await AppSecretsManager.GetSecret("secret2");
-            System.Diagnostics.Debug.WriteLine(secretValue.ToString());
-        } 
+            string secretValue = await AppSecretsManager.GetSecret("secret1");
+            System.Diagnostics.Debug.WriteLine(secretValue);
+        }
+
+        [TestMethod]
+        [TestCategory("Integration")]
+        public async Task GetSecretSecure_KeyName_DoesNotThrow()
+        {
+            SecureString secretValue = await AppSecretsManager.GetSecretSecure("secret2");
+            System.Diagnostics.Debug.WriteLine(secretValue);
+
+        }
+
     }
 }

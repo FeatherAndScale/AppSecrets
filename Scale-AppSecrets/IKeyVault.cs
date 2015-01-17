@@ -9,6 +9,8 @@ namespace Scale.AppSecrets
 {
     public interface IKeyVault
     {
-        Task<SecureString> GetSecret(string name);
+        Task<string> GetSecret(string name);
+
+        Task<SecureString> GetSecretSecure(string name);
     }
 }

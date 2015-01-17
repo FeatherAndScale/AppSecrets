@@ -21,7 +21,7 @@ namespace Scale.AppSecrets.Tests
             var appSecrets = new AppSecrets(mockKeyVault.Object);
 
             // Act
-            SecureString secretValue = await appSecrets.GetSecret(keyName);
+            string secretValue = await appSecrets.GetSecret(keyName);
 
             // Assert
             mockKeyVault.Verify(k => k.GetSecret(keyName), Times.Once);
@@ -41,7 +41,7 @@ namespace Scale.AppSecrets.Tests
             var appSecrets = new AppSecrets(mockKeyVault.Object);
 
             // Act
-            SecureString secretValue = await appSecrets.GetSecret(keyName);
+            var secretValue = await appSecrets.GetSecret(keyName);
             secretValue = await appSecrets.GetSecret(keyName);
 
             // Assert
