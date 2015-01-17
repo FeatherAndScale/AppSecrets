@@ -1,12 +1,14 @@
 # AppSecrets
 
 Easy library for retrieving secrets from [Microsoft Azure Key Vault](http://azure.microsoft.com/en-us/services/key-vault/) (Preview).
-Only two methods are offered; `GetSecret()` and `GetSecretSecure()`. There are no plans to add calls to create or modify secrets. If you want to do that, use the PowerShell commands (see below).
+Only two methods are offered; `Task<string> GetSecret(string name)` and `Task<SecureString> GetSecretSecure(string name)`. There are no plans to add calls to create or modify secrets. If you want to do that, use the PowerShell commands (see below).
 
 **Be aware that although secrets can be retrieved as `SecureString`, values are still deserialised by the Key Vault client in plain text (in RAM).** Hopefully this will be addressed in future versions. For secrets like Bearer Tokens and Connection Strings this is not usually a big deal - but use your own judgment.
 
 
 ## Quick Start
+
+Library is .NET 4.5 Framework and Async by default.
 
 Once your Key Vault has been set up and some secrets added to it, AppSecrets provides a simple API for retrieving them inside your Application. A conventional implementation is provided via `AppSecretsManager`. For more options, use the `AppSecrets` class instead.
 
