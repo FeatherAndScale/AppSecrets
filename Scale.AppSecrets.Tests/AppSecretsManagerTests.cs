@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using System.Security;
 
 namespace Scale.AppSecrets.Tests
 {
+    // To get these tests to work, add your KeyVault details to app.config.
     [TestClass]
     public class AppSecretsManagerTests
     {
@@ -24,6 +24,5 @@ namespace Scale.AppSecrets.Tests
             System.Diagnostics.Debug.WriteLine(secretValue);
 
         }
-
     }
 }

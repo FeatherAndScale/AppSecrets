@@ -6,6 +6,9 @@ using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
 namespace Scale.AppSecrets
 {
+    /// <summary>
+    /// A wrapper for the Microsoft Key Vault Client.
+    /// </summary>
     public class AzureKeyVault : IKeyVault
     {
         private KeyVaultClient _keyVaultClient;
@@ -13,6 +16,12 @@ namespace Scale.AppSecrets
         private string _clientSecret;
         private string _vaultUrl;
 
+        /// <summary>
+        /// Instantiates an instance of <see cref="AzureKeyVault"/>
+        /// </summary>
+        /// <param name="vaultUrl">The fully qualified Vault URL.</param>
+        /// <param name="clientId">The Application's Azure AD client ID.</param>
+        /// <param name="clientSecret">A client key for the Application from Azure AD.</param>
         public AzureKeyVault(string vaultUrl, string clientId, string clientSecret)
         {
             if (string.IsNullOrEmpty(vaultUrl)) throw new ArgumentNullException("vaultUrl");
@@ -25,8 +34,14 @@ namespace Scale.AppSecrets
             _keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(GetAccessToken));
         }
 
+        /// <summary>
+        /// Gets a secret value by name.
+        /// </summary>
+        /// <param name="name">The name of the Secret.</param>
+        /// <returns>The Secret value as Task of string.</returns>
         public async Task<string> GetSecret(string name)
         {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException("name");
             var secret = await _keyVaultClient.GetSecretAsync(_vaultUrl, name);
             return secret.Value;
         }
@@ -36,13 +51,18 @@ namespace Scale.AppSecrets
         /// </summary>
         /// <param name="name">The name of the Secret.</param>
         /// <returns>The secret value as <see cref="SecureString"/>.</returns>
+        /// <remarks>WARNING: Key Vault client deserialises value as plaintext (in to RAM). Read the Readme before 
+        /// using this method in Production.</remarks>
         public async Task<SecureString> GetSecretSecure(string name)
         {
-            // WARNING: Not actually secure. See Readme for details.
+            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException("name");
             var secret = await _keyVaultClient.GetSecretAsync(_vaultUrl, name);
             return secret.SecureValue;
         }
 
+        /// <summary>
+        /// Authentication callback for Key Vault Client.
+        /// </summary>
         private string GetAccessToken(string authority, string resource, string scope)
         {
             var clientCredential = new ClientCredential(_clientId, _clientSecret);

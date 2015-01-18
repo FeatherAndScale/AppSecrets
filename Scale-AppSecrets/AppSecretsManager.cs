@@ -5,6 +5,13 @@ using System;
 
 namespace Scale.AppSecrets
 {
+    /// <summary>
+    /// An opinionated and conventional helper class for getting Secrets from <see cref="AzureKeyVault"/>.
+    /// </summary>
+    /// <remarks>
+    /// Expects three appSettings to exist in app.config or web.config: Scale.AppSecrets.AppSecretsManager.VaultUrl,
+    /// Scale.AppSecrets.AppSecretsManager.ClientId and Scale.AppSecrets.AppSecretsManager.ClientSecret.
+    /// </remarks>
     public static class AppSecretsManager
     {
         private static AppSecrets _appSecrets;
@@ -22,13 +29,25 @@ namespace Scale.AppSecrets
             _appSecrets = new AppSecrets(new AzureKeyVault(vaultUrl, clientId, clientSecret));
         }
 
+        /// <summary>
+        /// Gets a secret value by name.
+        /// </summary>
+        /// <param name="name">The name of the Secret.</param>
+        /// <returns>The Secret value as Task of string.</returns>
         public static async Task<string> GetSecret(string name)
         {
             return await _appSecrets.GetSecret(name);
         }
+
+        /// <summary>
+        /// Gets a secret value by name and returns as <see cref="SecureString"/>.
+        /// </summary>
+        /// <param name="name">The name of the Secret.</param>
+        /// <returns>The Secret value as Task of <see cref="SecureString"/>.</returns>
+        /// <remarks>WARNING: Key Vault client deserialises value as plaintext (in to RAM). Read the Readme before 
+        /// using this method in Production.</remarks>
         public static async Task<SecureString> GetSecretSecure(string name)
         {
-            // WARNING: Not Actually Secure - Read the Readme before using in Production.
             return await _appSecrets.GetSecretSecure(name);
         }
     }

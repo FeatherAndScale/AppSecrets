@@ -37,7 +37,7 @@ If you prefer to manage your own config use the `AppSecrets` class instead.
 
 There are a couple of really good blogs on this:
 
-* [Azure Key Vault – Step by Step](http://blogs.technet.com/b/kv/archive/2015/01/09/azure-key-vault-step-by-step.aspx)
+* [Azure Key Vault - Step by Step](http://blogs.technet.com/b/kv/archive/2015/01/09/azure-key-vault-step-by-step.aspx)
 * [Securing Azure Web Job Secrets with Azure Key Vault](http://wp.sjkp.dk/securing-azure-web-job-secrets-with-azure-key-vault/)
 
 This project currently requires you to create a "Client Key" (Client Secret) for your App in Azure AD. Hoping to support other Client Credentials in a future version. Here are the high level steps *(will fill in more detail later)*:
